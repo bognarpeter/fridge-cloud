@@ -104,8 +104,7 @@ function initialize () {
             }
             res.render('items', food);
         });
-    })
-
+    });
 
         app.get('/add-item', (req, res) => {
             //timebased uuid
@@ -146,6 +145,7 @@ function initialize () {
         app.get('/getrecipe', (req, res) => {
 
             var ingredients = req.query.food_list;
+            ingredients = ["chicken", "tomato", "garlic"];
             if (ingredients == 'undefined') {
 
                 var options = {
@@ -179,7 +179,7 @@ function initialize () {
                             recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
 
                             console.log(recipeResult);
-                            res.render('items', {recipe: recipeResult});
+                            res.render('items',  recipeResult);
                         }
                     })
                     .catch((err) => console.log(err));
