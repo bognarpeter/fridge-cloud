@@ -10,7 +10,7 @@ const bodyParser = require('body-parser');
 const typeformEmbed = require('@typeform/embed')
 var rp = require('request-promise');
 
-#constants
+//constants
 const PORT = 8080;
 const EDAMAM_APP_ID = "e05818ac";
 const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
