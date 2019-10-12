@@ -1,0 +1,288 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "SharedFridge is a HackUPC 2019 project",
+        "version": "1.0",
+        "title": "SharedFridge",
+        "contact": {
+            "email": "mailman@mailbox.org"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "petstore.swagger.io",
+    "basePath": "/v2",
+    "tags": [
+        {
+            "name": "food",
+            "description": "All the data about our left over fruits"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/food": {
+            "post": {
+                "tags": [
+                    "food"
+                ],
+                "summary": "Add a new food to the fridge",
+                "description": "",
+                "operationId": "addPet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Food object that will to be added to the store",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Food"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All fine"
+                    },
+                    "402": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "food"
+                ],
+                "summary": "Get all food in the fridge",
+                "description": "",
+                "operationId": "addPet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "description": "Lon value of your apparment",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "description": "Lon value of your apparment",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All fine"
+                    },
+                    "402": {
+                        "description": "Invalid lon or lat"
+                    }
+                }
+            }
+        },
+        "/food/{id}": {
+            "get": {
+                "tags": [
+                    "food"
+                ],
+                "summary": "Get single food in the fridge",
+                "description": "",
+                "operationId": "addPet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "lon",
+                        "in": "query",
+                        "description": "Lon value of your apparment",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "lat",
+                        "in": "query",
+                        "description": "Lon value of your apparment",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of food to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All fine"
+                    },
+                    "402": {
+                        "description": "Invalid lon or lat"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "food"
+                ],
+                "summary": "Delete a new food to the fridge",
+                "description": "",
+                "operationId": "addPet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of food to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All fine"
+                    },
+                    "402": {
+                        "description": "Invalid input"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "food"
+                ],
+                "summary": "Update food in the fridge",
+                "description": "",
+                "operationId": "addPet",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Food object that will to be added to the store",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Food"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of food to delete",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All fine"
+                    },
+                    "402": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Food": {
+            "type": "object",
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "apple"
+                },
+                "type": {
+                    "type": "string",
+                    "example": "vegetable"
+                },
+                "blockedBy": {
+                    "type": "string",
+                    "example": "Peter"
+                },
+                "offeredBy": {
+                    "type": "string",
+                    "example": "Simon"
+                },
+                "amount": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "unit": {
+                    "type": "string",
+                    "example": "Pieces"
+                },
+                "expiration_date": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "image": {
+                    "type": "string",
+                    "example": "https://google.de/image.jpg"
+                },
+                "location": {
+                    "$ref": "#/definitions/Location"
+                }
+            }
+        },
+        "Location": {
+            "type": "object",
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "lon": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "lat": {
+                    "type": "number",
+                    "format": "float"
+                }
+            }
+        }
+    }
