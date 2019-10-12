@@ -14,12 +14,27 @@ var rp = require('request-promise');
 const PORT = 8080;
 const EDAMAM_APP_ID = "e05818ac";
 const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
+const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
 
 var logger = function(status, msg){
     var dt = new Date();
     console.log('['+dt+']['+status+'] '+msg);
+}
+
+function getFromObject(obj, path, def) {
+    var parts = path.split('.');
+
+    for (var p in parts) {
+        if (typeof obj[parts[p]] !== 'undefined') {
+            obj = obj[parts[p]];
+        } else {
+            return def;
+        }
+    }
+
+    return obj;
 }
 
 function initialize () {
@@ -115,29 +130,54 @@ function initialize () {
 
     app.get('/getrecipe', (req, res) => {
 
-        const ingredients = req.query.food_list;
+        var ingredients = req.query.food_list;
+        if(ingredients == 'undefined') {
 
-        var options = {
-            method: 'GET',
-            uri: 'https://api.edamam.com/search',
-            headers: {
-                "app_id": EDAMAM_APP_ID,
-                "app_key": EDAMAM_APP_KEY,
-                "Content-Type": 'application/json'
-            },
-            body: {
-                q: ingredients.join(','),
-                to: RECIPE_LIMIT
-            },
-            json: true
-        };
+            var options = {
+                method: 'GET',
+                uri: 'https://api.edamam.com/search',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                qs: {
+                    app_id: EDAMAM_APP_ID,
+                    app_key: EDAMAM_APP_KEY,
+                    q: ingredients.join(','),
+                    to: RECIPE_LIMIT
+                },
+                json: true
+            };
 
-        rp(options).then()
+            rp(options)
+                .then(function (apiResponse) {
+
+                    var recipeRaw = apiResponse.hits[0];
+                    if (recipeRaw != 'undefined') {
+                        //parse recipe
+                        var recipeResult = {};
+                        recipeResult.name = getFromObject(recipeRaw, 'recipe.label', 'no recipe name');
+                        recipeResult.image = getFromObject(recipeRaw, 'recipe.image', DEFAULT_IMG_URL);
+                        recipeResult.calories = Math.round(getFromObject(recipeRaw, 'recipe.calories', 0));
+                        recipeResult.time = getFromObject(recipeRaw, 'recipe.totalTime', 60);
+                        recipeResult.ingredients = getFromObject(recipeRaw, 'recipe.ingredientLines', ['salt', 'love']);
+                        recipeResult.diets = getFromObject(recipeRaw, 'recipe.dietLabels', ['low-carb']);
+                        recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
+
+                        console.log(recipeResult);
+                        //todo render recipe
+                    } else {
+
+                    }
+
+                })
+                .catch((err) => console.log(err));
+        }else{
+            //todo render NO recipe
+            console.log("no recipe");
+        }
 
 
     });
-
-    //...
 
     app.listen(PORT, (err) => {
         if(err){
