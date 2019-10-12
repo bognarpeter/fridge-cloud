@@ -14,8 +14,46 @@
   font-weight: 600;
 }
 
+/* HEADER */
+
+.nav-wrapper {
+
+}
+
+.brand-logo {
+  display: block;
+  margin-left: 20px;
+
+}
+
+.sidenav-trigger {
+
+}
+
+.material-icons {
+
+}
+
+.leftover-btn {
+
+}
+
+#mobile-demo {
+
+}
+
+
+
+
+/* INDEX */
 
 img {
   max-width: 50%;
   margin-top: 50px;
+}
+
+.slogan {
+  background-color: #;
+  color: #fff;
+  font-weight: bold;
 }

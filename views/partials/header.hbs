@@ -1,22 +1,22 @@
 <header>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo">Fridge cloud</a>
+  <nav class="teal lighten-2">
+    <div class="nav-wrapper" id="myDIV">
+      <a href="/" class="brand-logo">CLOUD FRIDGE</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-        <li><a class="waves-effect waves-light btn" href="add-item">Publish leftover</a></li>
-        <li><a href="items">Food near by</a></li>
-        <li><a href="my-items">My reservations</a></li>
-        <li><a href="my-published-items">My listings</a></li>
+        <li><a class="waves-effect waves-light btn leftover-btn" href="add-item">Publish leftover</a></li>
+        <li><a class="menu active" href="items">Food near by</a></li>
+        <li><a class="menu" href="my-items">My reservations</a></li>
+        <li><a class="menu" href="my-published-items">My listings</a></li>
       </ul>
     </div>
   </nav>
 
-  <ul class="sidenav" id="mobile-demo">
+  <ul class="sidenav" id="mobile-demo" id="myDIV">
     <li><a class="waves-effect waves-light btn" href="add-item">Publish leftover</a></li>
-    <li><a href="items">Food near by</a></li>
-    <li><a href="my-items">My reservations</a></li>
-    <li><a href="my-published-items">My listings</a></li>
+    <li><a class="menu active" href="items">Food near by</a></li>
+    <li><a class="menu" href="my-items">My reservations</a></li>
+    <li><a class="menu" href="my-published-items">My listings</a></li>
   </ul>
 </header>
 <script>
@@ -25,4 +25,15 @@
       var elems = document.querySelectorAll('.sidenav');
       var instances = M.Sidenav.init(elems, options);
   })
+
+  var header = document.getElementById("myDIV");
+var menu = header.getElementsByClassName("menu");
+for (var i = 0; i < menu.length; i++) {
+  menu[i].addEventListener("click", function() {
+  var current = document.getElementsByClassName("active");
+  current[0].className = current[0].className.replace(" active", "");
+  this.className += " active";
+  });
+}
+
 </script>
