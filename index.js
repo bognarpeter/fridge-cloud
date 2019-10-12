@@ -7,9 +7,15 @@ const hbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const typeformEmbed = require('@typeform/embed')
 var rp = require('request-promise');
 
-const PORT = 8080
+//constants
+const PORT = 8080;
+const EDAMAM_APP_ID = "e05818ac";
+const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
+
+const RECIPE_LIMIT = 1;
 
 var logger = function(status, msg){
     var dt = new Date();
@@ -53,8 +59,85 @@ function initialize () {
         res.status(500).send(err);
     });
 
+    app.get('/', (req, res) => {
+        var person = "Gaudi";
+        res.render('index', {person: person});
+    });
+
+    app.get('/items', (req, res) => {
+        var person = "Gaudi";
+        res.render('items', {food: [
+          {
+            "id": 0,
+            "name": "apple",
+            "type": "vegetable",
+            "blockedBy": "Peter",
+            "offeredBy": "Simon",
+            "amount": 0,
+            "unit": "Pieces",
+            "expiration_date": "2019-10-12T03:15:01.588Z",
+            "image": "https://google.de/image.jpg",
+            "location": {
+              "lon": 0,
+              "lat": 0
+            }
+          }
+        ]});
+      });
+
+    app.use('/add-item', (req, res) => {
+        var person = "Gaudi";
+        res.render('add-item', {person: person});
+    });
+
+    app.get('/my-items', (req, res) => {
+        var person = "Gaudi";
+        res.render('my-items', {food: [
+          {
+            "id": 0,
+            "name": "apple",
+            "type": "vegetable",
+            "blockedBy": "Peter",
+            "offeredBy": "Simon",
+            "amount": 0,
+            "unit": "Pieces",
+            "expiration_date": "2019-10-12T03:15:01.588Z",
+            "image": "https://google.de/image.jpg",
+            "location": {
+              "lon": 0,
+              "lat": 0
+            }
+          }
+        ]});
+    });
     //Frontend Routes
     require('./routes/frontend')(app);
+
+    app.get('/getrecipe', (req, res) => {
+
+        const ingredients = req.query.food_list;
+
+        var options = {
+            method: 'GET',
+            uri: 'https://api.edamam.com/search',
+            headers: {
+                "app_id": EDAMAM_APP_ID,
+                "app_key": EDAMAM_APP_KEY,
+                "Content-Type": 'application/json'
+            },
+            body: {
+                q: ingredients.join(','),
+                to: RECIPE_LIMIT
+            },
+            json: true
+        };
+
+        rp(options).then()
+
+
+    });
+
+    //...
 
     app.listen(PORT, (err) => {
         if(err){
