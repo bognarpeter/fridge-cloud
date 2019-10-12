@@ -17,10 +17,12 @@
       <table class="striped">
         {{# each food as |f key|}}
         <tr>
+          <td>{{ f.name }}</td>
           <td>{{ f.type }}</td>
-          <td>{{ f.name }}</td>
-          <td>{{ f.name }}</td>
-          <td>{{ f.name }}</td>
+          <td>{{ f.amount }} {{ f.unit }}</td>
+          <td>{{ f.expiration_date}}</td>
+          <td>{{ f.offeredBy }}</td>
+          <td>{{ f.distance }}</td>
         </tr>
         {{/each}}
       </table>
@@ -29,5 +31,3 @@
     </div>
   </div>
 </div>
-<script>
-</script>

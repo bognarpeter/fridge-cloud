@@ -23,11 +23,13 @@
       <table class="striped">
         {{# each food as |f key|}}
         <tr>
+          <td>{{ f.name }}</td>
           <td>{{ f.type }}</td>
-          <td>{{ f.name }}</td>
-          <td>{{ f.name }}</td>
-          <td>{{ f.name }}</td>
-          <td><a class="waves-effect waves-light btn btn-small">reserve</a></td>
+          <td>{{ f.amount }} {{ f.unit }}</td>
+          <td>{{ f.offeredBy }}</td>
+          <td>{{ f.expiration_date}}</td>
+          <td>{{ f.distance }}</td>
+          <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
         </tr>
         {{/each}}
       </table>
@@ -37,5 +39,5 @@
   </div>
 </div>
 <script>
-
+   document.getElementsByClassName("reserve-btn")
 </script>
