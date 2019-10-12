@@ -27,7 +27,7 @@ const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
 const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
-
+let USER_NAME = 'Joey';
 
 var logger = function(status, msg){
     var dt = new Date();
@@ -85,147 +85,55 @@ function initialize () {
         res.status(500).send(err);
     });
 
+
     app.get('/', (req, res) => {
-        console.log("1");
-        Item.find({}, function (err, docs) {
-            console.log(docs)
-            // docs.forEach((d) => console.log(d));
-        });
-        console.log("2");
-
-        res.render('index', {item: "lol"});
-
+        if(req.username != undefined){
+            USER_NAME = req.username;
+        }
+        res.render('index', {username: USER_NAME});
     });
 
     app.get('/items', (req, res) => {
-        var person = "Gaudi";
-        res.render('items', {food: [
-          {
-            "id": 0,
-            "name": "apple",
-            "type": "vegetable",
-            "blockedBy": "Peter",
-            "offeredBy": "Simon",
-            "amount": 0,
-            "unit": "Pieces",
-            "expiration_date": "2019-10-12T03:15:01.588Z",
-            "image": "https://google.de/image.jpg",
-            "location": {
-              "lon": 0,
-              "lat": 0
+        var foods = Item.find({offeredBy: {$ne: USER_NAME} }, function (err, docs) {
+            var food = [];
+            if(err){
+                console.log(err);
+            }else{
+                food = {food: docs}
             }
-          }
-        ]});
+        });
+        res.render('items', {food: foods});
       });
 
-    app.use('/add-item', (req, res) => {
-       //TODO
-        res.render('add-item');
+    app.get('/add-item', (req, res) => {
+        res.render('add-item', {user: person});
     });
+
+    app.get('/my-published-items', (req, res) => {
+        var food = [];
+        Item.find({offeredBy:USER_NAME}, function (err, docs) {
+            if(err){
+                console.log(err);
+            }else{
+                food = {food: docs}
+            }
+        }
+        res.render('my-published-items', food);
+    });
+
 
     app.get('/my-items', (req, res) => {
-        var food = {food: [
-          {
-            "id": 0,
-            "name": "apple",
-            "type": "vegetable",
-            "blockedBy": "Peter",
-            "offeredBy": "Simon",
-            "amount": 0,
-            "unit": "Pieces",
-            "expiration_date": "2019-10-12T03:15:01.588Z",
-            "image": "https://google.de/image.jpg",
-            "location": {
-              "lon": 0,
-              "lat": 0
-            }},
-            {
-              "id": 0,
-              "name": "apple",
-              "type": "vegetable",
-              "blockedBy": "Peter",
-              "offeredBy": "Simon",
-              "amount": 0,
-              "unit": "Pieces",
-              "expiration_date": "2019-10-12T03:15:01.588Z",
-              "image": "https://google.de/image.jpg",
-              "location": {
-                "lon": 0,
-                "lat": 0
-              }},
-              {
-                "id": 0,
-                "name": "apple",
-                "type": "vegetable",
-                "blockedBy": "Peter",
-                "offeredBy": "Simon",
-                "amount": 0,
-                "unit": "Pieces",
-                "expiration_date": "2019-10-12T03:15:01.588Z",
-                "image": "https://google.de/image.jpg",
-                "location": {
-                  "lon": 0,
-                  "lat": 0
-                }
-              },
-                {
-                  "id": 0,
-                  "name": "apple",
-                  "type": "vegetable",
-                  "blockedBy": "Peter",
-                  "offeredBy": "Simon",
-                  "amount": 0,
-                  "unit": "Pieces",
-                  "expiration_date": "2019-10-12T03:15:01.588Z",
-                  "image": "https://google.de/image.jpg",
-                  "location": {
-                    "lon": 0,
-                    "lat": 0
-                  }
-                },
-                  {
-                    "id": 0,
-                    "name": "apple",
-                    "type": "vegetable",
-                    "blockedBy": "Peter",
-                    "offeredBy": "Simon",
-                    "amount": 0,
-                    "unit": "Pieces",
-                    "expiration_date": "2019-10-12T03:15:01.588Z",
-                    "image": "https://google.de/image.jpg",
-                    "location": {
-                      "lon": 0,
-                      "lat": 0
-                    }
-                  }
-        ]};
+        var food = [];
+        Item.find({blockedBy:USER_NAME}, function (err, docs) {
+            if(err){
+                console.log(err);
+            }else{
+                food = {food: docs}
+            }
+        }
         res.render('my-items', food);
     });
-    //Frontend Routes
-    require('./routes/frontend')(app);
 
-      app.get('/my-published-items', (req, res) => {
-          res.render('my-published-items', {food: [
-            {
-              "id": 0,
-              "name": "apple",
-              "type": "vegetable",
-              "blockedBy": "Peter",
-              "offeredBy": "Simon",
-              "amount": 0,
-              "unit": "Pieces",
-              "expiration_date": "2019-10-12T03:15:01.588Z",
-              "image": "https://google.de/image.jpg",
-              "location": {
-                "lon": 0,
-                "lat": 0
-              }
-            }
-          ]});
-      });
-
-    //Frontend Routes
-    require('./routes/frontend')(app);
 
     app.get('/getrecipe', (req, res) => {
 
