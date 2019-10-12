@@ -1,6 +1,6 @@
 module.exports = function (app) {
     // Lib for getting distance of a point around a centered one (Haversine formular)
-    var hDistance = require("../lib/haversine_distance");
+    const haversine = require('haversine')
     let testData = {
         food: [
             {
@@ -90,7 +90,7 @@ module.exports = function (app) {
                 "image": "https://source.unsplash.com/1600x900/?apple",
                 "location": {
                     "lon": 2.155700,
-                    "lat": 41.388156
+                    "lat": 42.388156
                 }
             },
             {
@@ -105,7 +105,7 @@ module.exports = function (app) {
                 "image": "https://source.unsplash.com/1600x900/?banana",
                 "location": {
                     "lon": 2.158178,
-                    "lat": 41.387135
+                    "lat": 42.387135
                 }
             }
         ]
@@ -118,7 +118,7 @@ module.exports = function (app) {
     });
 
     // All items
-    // Call for the example data: http://localhost:8080/items?lat=41.394193&lon=2.165666&distance=500
+    // Call for the example data: http://localhost:8080/items?lat=41.394193&lon=2.165666&distance=50o0
     app.get('/items', (req, res) => {
         // get data from query
         let lon = req.query.lon;
@@ -139,20 +139,31 @@ module.exports = function (app) {
             return
         }
 
-        //TODO: load items
+        //TODO: load items from database
         let items = testData;
 
         // Filter array to contain only the one in the right distance
         items.food = items.food.filter(function (foodItem) {
-            let d = hDistance.getDistanceFromLatLonInMeter(lat, lon, foodItem.location.lat, foodItem.location.lon);
-            console.log("Distance ",foodItem.name,": ",d);
-            return Number(distanceM) > Number(d);
+            let c = haversine({
+                latitude: lat,
+                longitude: lon
+            }, {
+                latitude: foodItem.location.lat,
+                longitude: foodItem.location.lon
+            }, 
+            {unit: 'meter'});
+
+            console.log(c)
+            return Number(c) < Number(distanceM);
         });
 
         res.render('items', items);
     });
     // Add new item
     app.post('/items', (req, res) => {
+        let body = req.body;
+        testData.food.push(body);
+        req.send("body")
         //TODO: Save body into db
         //TODO: redirect to /item/:id
 
