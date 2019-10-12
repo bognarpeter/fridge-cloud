@@ -113,10 +113,8 @@ function initialize () {
             res.render('add-item', {user: USER_NAME, id: id});
         });
 
-        app.get('/new-item', (req, res) => {
+        app.post('/new-item', (req, res) => {
             console.log(req);
-            console.log("KAKA");
-            console.log(res);
         });
 
 
