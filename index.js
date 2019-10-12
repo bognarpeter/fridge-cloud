@@ -28,7 +28,7 @@ const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
 const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
-let USER_NAME = 'Joey';
+var USER_NAME = 'Joey';
 
 var logger = function(status, msg){
     var dt = new Date();
@@ -87,8 +87,8 @@ function initialize () {
 
 
     app.get('/', (req, res) => {
-        if (req.username != undefined) {
-            USER_NAME = req.username;
+        if (req.query.username != undefined) {
+            USER_NAME = req.query.username;
         }
         res.render('index', {username: USER_NAME});
     });
@@ -104,17 +104,48 @@ function initialize () {
             }
             res.render('items', food);
         });
-    })
-
+    });
 
         app.get('/add-item', (req, res) => {
             //timebased uuid
             var id = uuid.v1();
-            res.render('add-item', {user: USER_NAME, id: id});
+            var minRadius = 50;
+            var maxRadius = 1000;
+            var distance = (Math.random() * (maxRadius - minRadius) + minRadius).toFixed(2);
+            res.render('add-item', {user: USER_NAME, id: id, distance: distance});
         });
 
         app.post('/new-item', (req, res) => {
-            console.log(req);
+            var b = req.body;
+
+            console.log(b);
+            var doc = {};
+            doc.location = {};
+            doc.location.lat = getFromObject(b,'form_response.hidden.lat', 0);
+            doc.location.lon = getFromObject(b,'form_response.hidden.lon', 0);
+            doc.location.distance = getFromObject(b,'form_response.hidden.distance', 0);
+            doc.offeredBy = getFromObject(b,'form_response.hidden.username', 'Joey');
+            doc.id = getFromObject(b,'form_response.hidden.uuid', 0);
+
+            b.form_response.answers.map(function(f){
+                if(f.field.ref == 'food-name'){
+                    doc.name = f.text;
+                }else if(f.field.ref == 'amount'){
+                    doc.amount = f.text;
+                }else if(f.field.ref == 'unit'){
+                    doc.unit = f.text;
+                }else if(f.field.ref == 'type'){
+                    doc.type = f.choice.label;
+                }else if(f.field.ref == 'expiration-date'){
+                    doc.expiration_date = f.date;
+                }
+            });
+            var instance = new Item(doc);
+
+            Item.createItem(instance,function (err, res) {
+                if (err) return console.error(err);
+                console.log(res.name + " product successful save to  collection.");
+            });
         });
 
 
@@ -146,6 +177,7 @@ function initialize () {
         app.get('/getrecipe', (req, res) => {
 
             var ingredients = req.query.food_list;
+            ingredients = ["chicken", "tomato", "garlic"];
             if (ingredients == 'undefined') {
 
                 var options = {
@@ -179,7 +211,7 @@ function initialize () {
                             recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
 
                             console.log(recipeResult);
-                            res.render('items', {recipe: recipeResult});
+                            res.render('items',  recipeResult);
                         }
                     })
                     .catch((err) => console.log(err));
