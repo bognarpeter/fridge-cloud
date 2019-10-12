@@ -31,11 +31,18 @@ var ItemSchema = mongoose.Schema({
     },
     location: {
         lon: { type: Number },
-        lat: { type: Number }
+        lat: { type: Number },
+        distance: { type: Number }
     }
 });
 
 const Item = module.exports = mongoose.model('Item', ItemSchema);
+
+var createItem = function(newItem, callback){
+    newItem.image = "igen";
+    newItem.save(callback);
+
+};
 
 var getItemsByBlocker = function(username, callback){
     Item.find({blockedBy: username}, callback);
@@ -45,5 +52,6 @@ var getItemsByOffer = function(username, callback){
     Item.find({offeredBy: username}, callback);
 };
 
+module.exports.createItem = createItem;
 module.exports.getItemsByBlocker = getItemsByBlocker;
 module.exports.getItemsByOffer = getItemsByOffer;
