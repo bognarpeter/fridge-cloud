@@ -1,23 +1,33 @@
-<div align="center">
-    <h4>Welcome</h4>
-</div>
-
 <div class="main-container" align="center">
-  <form action="#">
-   <p class="range-field">
-     <input type="range" id="test5" min="0" max="100" />
-   </p>
- </form>
- 
-  {{# if food }}
-      <ul class="collection">
-          {{# each food as |f key|}}
-              <li>
-                <p>{{ f.id }} {{ f.name }}
-                </p>
-                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-              </li>
-          {{/each}}
-      </ul>
-  {{/if}}
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">search</i>
+            <input type="text" id="autocomplete-input" class="autocomplete">
+            <label for="autocomplete-input">search the best</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<form action="#">
+  <p class="range-field">
+    <input type="range" id="test5" min="0" max="100" />
+  </p>
+</form>
+
+{{# if food }}
+<ul class="collection">
+  {{# each food as |f key|}}
+  <li>
+    <p>{{f.type}}{{ f.name }}{{ f.name }}{{ f.name }}
+    </p>
+    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+  </li>
+  {{/each}}
+</ul>
+{{/if}}
 </div>

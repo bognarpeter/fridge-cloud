@@ -14,6 +14,7 @@ var rp = require('request-promise');
 const PORT = 8080;
 const EDAMAM_APP_ID = "e05818ac";
 const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
+const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
 
@@ -22,7 +23,21 @@ var logger = function (status, msg) {
     console.log('[' + dt + '][' + status + '] ' + msg);
 }
 
-function initialize() {
+function getFromObject(obj, path, def) {
+    var parts = path.split('.');
+
+    for (var p in parts) {
+        if (typeof obj[parts[p]] !== 'undefined') {
+            obj = obj[parts[p]];
+        } else {
+            return def;
+        }
+    }
+
+    return obj;
+}
+
+function initialize () {
     let app = express();
 
     // View Engine
@@ -63,31 +78,72 @@ function initialize() {
     //Frontend Routes
     require('./routes/frontend')(app);
 
+      app.get('/my-published-items', (req, res) => {
+          res.render('my-published-items', {food: [
+            {
+              "id": 0,
+              "name": "apple",
+              "type": "vegetable",
+              "blockedBy": "Peter",
+              "offeredBy": "Simon",
+              "amount": 0,
+              "unit": "Pieces",
+              "expiration_date": "2019-10-12T03:15:01.588Z",
+              "image": "https://google.de/image.jpg",
+              "location": {
+                "lon": 0,
+                "lat": 0
+              }
+            }
+          ]});
+      });
+
+    //Frontend Routes
+    require('./routes/frontend')(app);
+
     app.get('/getrecipe', (req, res) => {
 
-        const ingredients = req.query.food_list;
+        var ingredients = req.query.food_list;
+        if(ingredients == 'undefined') {
 
-        var options = {
-            method: 'GET',
-            uri: 'https://api.edamam.com/search',
-            headers: {
-                "app_id": EDAMAM_APP_ID,
-                "app_key": EDAMAM_APP_KEY,
-                "Content-Type": 'application/json'
-            },
-            body: {
-                q: ingredients.join(','),
-                to: RECIPE_LIMIT
-            },
-            json: true
-        };
+            var options = {
+                method: 'GET',
+                uri: 'https://api.edamam.com/search',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                qs: {
+                    app_id: EDAMAM_APP_ID,
+                    app_key: EDAMAM_APP_KEY,
+                    q: ingredients.join(','),
+                    to: RECIPE_LIMIT
+                },
+                json: true
+            };
 
-        rp(options).then()
+            rp(options)
+                .then(function (apiResponse) {
 
+                    var recipeRaw = apiResponse.hits[0];
+                    if (recipeRaw != 'undefined') {
+                        //parse recipe
+                        var recipeResult = {};
+                        recipeResult.name = getFromObject(recipeRaw, 'recipe.label', 'no recipe name');
+                        recipeResult.image = getFromObject(recipeRaw, 'recipe.image', DEFAULT_IMG_URL);
+                        recipeResult.calories = Math.round(getFromObject(recipeRaw, 'recipe.calories', 0));
+                        recipeResult.time = getFromObject(recipeRaw, 'recipe.totalTime', 60);
+                        recipeResult.ingredients = getFromObject(recipeRaw, 'recipe.ingredientLines', ['salt', 'love']);
+                        recipeResult.diets = getFromObject(recipeRaw, 'recipe.dietLabels', ['low-carb']);
+                        recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
+
+                        console.log(recipeResult);
+                        res.render('items', {recipe: recipeResult});
+                    }
+                })
+                .catch((err) => console.log(err));
+        }
 
     });
-
-    //...
 
     app.listen(PORT, (err) => {
         if (err) {
