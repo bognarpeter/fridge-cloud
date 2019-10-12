@@ -60,9 +60,30 @@ function initialize () {
         res.render('index', {person: person});
     });
 
-    app.get('/inventory', (req, res) => {
+    app.get('/items', (req, res) => {
         var person = "Gaudi";
-        res.render('inventory', {food: [
+        res.render('items', {food: [
+          {
+            "id": 0,
+            "name": "apple",
+            "type": "vegetable",
+            "blockedBy": "Peter",
+            "offeredBy": "Simon",
+            "amount": 0,
+            "unit": "Pieces",
+            "expiration_date": "2019-10-12T03:15:01.588Z",
+            "image": "https://google.de/image.jpg",
+            "location": {
+              "lon": 0,
+              "lat": 0
+            }
+          }
+        ]});
+    });
+
+    app.get('/my-items', (req, res) => {
+        var person = "Gaudi";
+        res.render('my-items', {food: [
           {
             "id": 0,
             "name": "apple",
