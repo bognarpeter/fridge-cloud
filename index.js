@@ -140,12 +140,11 @@ function initialize () {
                     doc.expiration_date = f.date;
                 }
             });
-            console.log(doc);
             var instance = new Item(doc);
 
             Item.createItem(instance,function (err, res) {
                 if (err) return console.error(err);
-                console.log(res.name + "successful save to  collection.");
+                console.log(res.name + " product successful save to  collection.");
             });
         });
 
