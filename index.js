@@ -28,7 +28,7 @@ const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
 const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
-let USER_NAME = 'Joey';
+var USER_NAME = 'Joey';
 
 var logger = function(status, msg){
     var dt = new Date();
@@ -87,8 +87,8 @@ function initialize () {
 
 
     app.get('/', (req, res) => {
-        if (req.username != undefined) {
-            USER_NAME = req.username;
+        if (req.query.username != undefined) {
+            USER_NAME = req.query.username;
         }
         res.render('index', {username: USER_NAME});
     });
