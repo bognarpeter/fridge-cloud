@@ -164,18 +164,11 @@ function initialize () {
                         recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
 
                         console.log(recipeResult);
-                        //todo render recipe
-                    } else {
-
+                        res.render('items', {recipe: recipeResult});
                     }
-
                 })
                 .catch((err) => console.log(err));
-        }else{
-            //todo render NO recipe
-            console.log("no recipe");
         }
-
 
     });
 
