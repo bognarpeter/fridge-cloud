@@ -1,3 +1,20 @@
+* {
+  text-decoration: none;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: Catamaran;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+
 img {
   max-width: 50%;
   margin-top: 50px;
