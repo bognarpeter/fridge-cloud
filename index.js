@@ -120,7 +120,7 @@ function initialize () {
 
     app.use('/add-item', (req, res) => {
        //TODO
-        res.render('add-item', {user: person, lat:0, lon:0});
+        res.render('add-item');
     });
 
     app.get('/my-items', (req, res) => {
