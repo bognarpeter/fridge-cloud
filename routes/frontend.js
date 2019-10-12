@@ -173,28 +173,18 @@ module.exports = function (app) {
     */
 
     // My reserved items
-    app.get('/my-items', (req, res) => {
+    app.get('/:name/items/', (req, res) => {
         //TODO: load items
-        var person = "Gaudi";
-        res.render('items', {
-            food: [
-                {
-                    "id": 0,
-                    "name": "apple",
-                    "type": "vegetable",
-                    "blockedBy": "Peter",
-                    "offeredBy": "Simon",
-                    "amount": 0,
-                    "unit": "Pieces",
-                    "expiration_date": "2019-10-12T03:15:01.588Z",
-                    "image": "https://google.de/image.jpg",
-                    "location": {
-                        "lon": 0,
-                        "lat": 0
-                    }
-                }
-            ]
+        var name = req.param("name");
+
+        let items = testData;
+
+        // Filter array to contain only the one in the right distance
+        items.food = items.food.filter(function (foodItem) {
+            return foodItem.blockedBy == name
         });
+
+        res.render('items',items);
     });
 
     // Single item
