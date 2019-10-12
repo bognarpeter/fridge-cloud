@@ -1,0 +1,17 @@
+<div align="center">
+    <h4>Welcome</h4>
+</div>
+
+<div class="main-container" align="center">
+  {{# if food }}
+      <ul class="collection">
+          {{# each food as |f key|}}
+              <li>
+                <p>{{ f.id }} {{ f.name }}
+                </p>
+                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+              </li>
+          {{/each}}
+      </ul>
+  {{/if}}
+</div>
