@@ -1,0 +1,19 @@
+{
+  "name": "fridge-cloud",
+  "version": "1.0.0",
+  "description": "reduce food waste!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bognarpeter/fridge-cloud.git"
+  },
+  "author": "team1",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bognarpeter/fridge-cloud/issues"
+  },
+  "homepage": "https://github.com/bognarpeter/fridge-cloud#readme"
+}
