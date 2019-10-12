@@ -45,6 +45,5 @@ var getItemsByOffer = function(username, callback){
     Item.find({offeredBy: username}, callback);
 };
 
-module.exports.createItem = createItem;
 module.exports.getItemsByBlocker = getItemsByBlocker;
 module.exports.getItemsByOffer = getItemsByOffer;
