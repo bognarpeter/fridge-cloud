@@ -7,6 +7,9 @@
             <i class="material-icons prefix">search</i>
             <input type="text" id="autocomplete-input" class="autocomplete">
             <label for="autocomplete-input">search the best</label>
+            <p class="range-field">
+              <input type="range" id="test5" min="0" max="100" />
+            </p>
           </div>
         </div>
       </div>
@@ -14,18 +17,16 @@
   </div>
 </div>
 <form action="#">
-  <p class="range-field">
-    <input type="range" id="test5" min="0" max="100" />
-  </p>
+
 </form>
 
 {{# if food }}
 <ul class="collection">
   {{# each food as |f key|}}
   <li>
-    <p>{{f.type}}{{ f.name }}{{ f.name }}{{ f.name }}
+    <h1>{{f.type}}-{{ f.name }}<h1>
+    <h2>{{ f.name }} {{ f.name }}<h2>
     </p>
-    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
   </li>
   {{/each}}
 </ul>
