@@ -14,21 +14,21 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col s12">
+      {{# if food }}
+      <table class="striped">
+        {{# each food as |f key|}}
+        <tr>
+          <td>{{ f.type }}</td>
+          <td>{{ f.name }}</td>
+          <td>{{ f.name }}</td>
+          <td>{{ f.name }}</td>
+        </tr>
+        {{/each}}
+      </table>
+      {{/if}}
+     </div>
+    </div>
   </div>
-</div>
-<form action="#">
-
-</form>
-
-{{# if food }}
-<ul class="collection">
-  {{# each food as |f key|}}
-  <li>
-    <h1>{{f.type}}-{{ f.name }}<h1>
-    <h2>{{ f.name }} {{ f.name }}<h2>
-    </p>
-  </li>
-  {{/each}}
-</ul>
-{{/if}}
 </div>

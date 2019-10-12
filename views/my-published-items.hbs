@@ -1,13 +1,34 @@
 <div class="main-container" align="center">
-  {{# if food }}
-      <ul class="collection">
-          {{# each food as |f key|}}
-              <li>
-                <p>{{ f.id }} {{ f.name }}
-                </p>
-                <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-              </li>
-          {{/each}}
-      </ul>
-  {{/if}}
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <div class="row">
+          <div class="input-field col s12">
+            <i class="material-icons prefix">search</i>
+            <input type="text" id="autocomplete-input" class="autocomplete">
+            <label for="autocomplete-input">search the best</label>
+            <p class="range-field">
+              <input type="range" id="test5" min="0" max="100" />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+      {{# if food }}
+      <table class="striped">
+        {{# each food as |f key|}}
+        <tr>
+          <td>{{ f.type }}</td>
+          <td>{{ f.name }}</td>
+          <td>{{ f.name }}</td>
+          <td>{{ f.name }}</td>
+        </tr>
+        {{/each}}
+      </table>
+      {{/if}}
+     </div>
+    </div>
+  </div>
 </div>
