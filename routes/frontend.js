@@ -1,6 +1,8 @@
 module.exports = function (app) {
     // Lib for getting distance of a point around a centered one (Haversine formular)
     const haversine = require('haversine')
+    const db = require('../db/db')
+
     let testData = {
         food: [
             {
