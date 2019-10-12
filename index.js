@@ -102,8 +102,8 @@ function initialize () {
             } else {
                 food = {food: docs}
             }
+            res.render('items', food);
         });
-        res.render('items', food);
     })
 
 
@@ -121,8 +121,8 @@ function initialize () {
                 } else {
                     food = {food: docs}
                 }
+                res.render('my-published-items', food);
             })
-            res.render('my-published-items', food);
         });
 
 
@@ -134,21 +134,8 @@ function initialize () {
                 } else {
                     food = {food: docs}
                 }
+                res.render('my-items', food);
             })
-            res.render('my-items', food);
-        });
-
-
-        app.get('/my-items', (req, res) => {
-            var food = [];
-            Item.find({blockedBy: USER_NAME}, function (err, docs) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    food = {food: docs}
-                }
-            })
-            res.render('my-items', food);
         });
 
         app.get('/getrecipe', (req, res) => {
