@@ -7,6 +7,7 @@ const hbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const typeformEmbed = require('@typeform/embed')
 var rp = require('request-promise');
 
 #constants
@@ -58,8 +59,6 @@ function initialize () {
         res.status(500).send(err);
     });
 
-
-    //Routes
     app.get('/', (req, res) => {
         var person = "Gaudi";
         res.render('index', {person: person});
@@ -84,6 +83,11 @@ function initialize () {
             }
           }
         ]});
+      });
+
+    app.use('/add-item', (req, res) => {
+        var person = "Gaudi";
+        res.render('add-item', {person: person});
     });
 
     app.get('/my-items', (req, res) => {
@@ -106,6 +110,8 @@ function initialize () {
           }
         ]});
     });
+    //Frontend Routes
+    require('./routes/frontend')(app);
 
     app.get('/getrecipe', (req, res) => {
 
