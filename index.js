@@ -106,7 +106,6 @@ function initialize () {
     });
 
     app.get('/my-items', (req, res) => {
-        var person = "Gaudi";
         res.render('my-items', {food: [
           {
             "id": 0,
@@ -125,6 +124,28 @@ function initialize () {
           }
         ]});
     });
+
+
+      app.get('/my-published-items', (req, res) => {
+          res.render('my-published-items', {food: [
+            {
+              "id": 0,
+              "name": "apple",
+              "type": "vegetable",
+              "blockedBy": "Peter",
+              "offeredBy": "Simon",
+              "amount": 0,
+              "unit": "Pieces",
+              "expiration_date": "2019-10-12T03:15:01.588Z",
+              "image": "https://google.de/image.jpg",
+              "location": {
+                "lon": 0,
+                "lat": 0
+              }
+            }
+          ]});
+      });
+
     //Frontend Routes
     require('./routes/frontend')(app);
 
