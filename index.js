@@ -94,15 +94,15 @@ function initialize () {
     });
 
     app.get('/items', (req, res) => {
-        var foods = Item.find({offeredBy: {$ne: USER_NAME} }, function (err, docs) {
-            var food = [];
+        var food = [];
+        Item.find({offeredBy: {$ne: USER_NAME}}, function (err, docs) {
             if(err){
                 console.log(err);
             }else{
                 food = {food: docs}
             }
         });
-        res.render('items', {food: foods});
+        res.render('items', {food: food});
       });
 
     app.get('/add-item', (req, res) => {
@@ -137,6 +137,18 @@ function initialize () {
         res.render('my-items', food);
     });
 
+
+    app.get('/my-items', (req, res) => {
+        var food = [];
+        Item.find({blockedBy:USER_NAME}, function (err, docs) {
+            if(err){
+                console.log(err);
+            }else{
+                food = {food: docs}
+            }
+        })
+        res.render('my-items', food);
+    });
 
     app.get('/getrecipe', (req, res) => {
 
