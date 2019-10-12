@@ -53,12 +53,12 @@ function initialize () {
 
     // View Engine
     app.set('views', path.join(__dirname, 'views'));
-    app.engine('hbs', hbs({extname:'hbs', defaultLayout:'layout'}));
+    app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout'}));
     app.set('view engine', 'hbs');
 
     // BodyParser Middleware
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.urlencoded({extended: true}));
 
     // Set Static Folder
     app.use(express.static('public'));
@@ -87,7 +87,7 @@ function initialize () {
 
 
     app.get('/', (req, res) => {
-        if(req.username != undefined){
+        if (req.username != undefined) {
             USER_NAME = req.username;
         }
         res.render('index', {username: USER_NAME});
@@ -95,111 +95,111 @@ function initialize () {
 
     app.get('/items', (req, res) => {
         var food = [];
-        Item.find({offeredBy: {$ne: USER_NAME} }, function (err, docs) {
+        Item.find({offeredBy: {$ne: USER_NAME}}, function (err, docs) {
 
-            if(err){
+            if (err) {
                 console.log(err);
-            }else{
+            } else {
                 food = {food: docs}
             }
         });
         res.render('items', food);
+    })
 
 
-    app.get('/add-item', (req, res) => {
-        //timebased uuid
-        var id = uuid.v1();
-        res.render('add-item', {user: USER_NAME, id: id});
-    });
+        app.get('/add-item', (req, res) => {
+            //timebased uuid
+            var id = uuid.v1();
+            res.render('add-item', {user: USER_NAME, id: id});
+        });
 
-    app.get('/my-published-items', (req, res) => {
-        var food = [];
-        Item.find({offeredBy:USER_NAME}, function (err, docs) {
-            if(err){
-                console.log(err);
-            }else{
-                food = {food: docs}
+        app.get('/my-published-items', (req, res) => {
+            var food = [];
+            Item.find({offeredBy: USER_NAME}, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    food = {food: docs}
+                }
+            })
+            res.render('my-published-items', food);
+        });
+
+
+        app.get('/my-items', (req, res) => {
+            var food = [];
+            Item.find({blockedBy: USER_NAME}, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    food = {food: docs}
+                }
+            })
+            res.render('my-items', food);
+        });
+
+
+        app.get('/my-items', (req, res) => {
+            var food = [];
+            Item.find({blockedBy: USER_NAME}, function (err, docs) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    food = {food: docs}
+                }
+            })
+            res.render('my-items', food);
+        });
+
+        app.get('/getrecipe', (req, res) => {
+
+            var ingredients = req.query.food_list;
+            if (ingredients == 'undefined') {
+
+                var options = {
+                    method: 'GET',
+                    uri: 'https://api.edamam.com/search',
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    qs: {
+                        app_id: EDAMAM_APP_ID,
+                        app_key: EDAMAM_APP_KEY,
+                        q: ingredients.join(','),
+                        to: RECIPE_LIMIT
+                    },
+                    json: true
+                };
+
+                rp(options)
+                    .then(function (apiResponse) {
+
+                        var recipeRaw = apiResponse.hits[0];
+                        if (recipeRaw != 'undefined') {
+                            //parse recipe
+                            var recipeResult = {};
+                            recipeResult.name = getFromObject(recipeRaw, 'recipe.label', 'no recipe name');
+                            recipeResult.image = getFromObject(recipeRaw, 'recipe.image', DEFAULT_IMG_URL);
+                            recipeResult.calories = Math.round(getFromObject(recipeRaw, 'recipe.calories', 0));
+                            recipeResult.time = getFromObject(recipeRaw, 'recipe.totalTime', 60);
+                            recipeResult.ingredients = getFromObject(recipeRaw, 'recipe.ingredientLines', ['salt', 'love']);
+                            recipeResult.diets = getFromObject(recipeRaw, 'recipe.dietLabels', ['low-carb']);
+                            recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
+
+                            console.log(recipeResult);
+                            res.render('items', {recipe: recipeResult});
+                        }
+                    })
+                    .catch((err) => console.log(err));
             }
-        })
-        res.render('my-published-items', food);
-    });
 
+        });
 
-    app.get('/my-items', (req, res) => {
-        var food = [];
-        Item.find({blockedBy:USER_NAME}, function (err, docs) {
-            if(err){
-                console.log(err);
-            }else{
-                food = {food: docs}
+        app.listen(PORT, (err) => {
+            if (err) {
+                console.log(`Fail: ${err}`);
             }
-        })
-        res.render('my-items', food);
-    });
-
-
-    app.get('/my-items', (req, res) => {
-        var food = [];
-        Item.find({blockedBy:USER_NAME}, function (err, docs) {
-            if(err){
-                console.log(err);
-            }else{
-                food = {food: docs}
-            }
-        })
-        res.render('my-items', food);
-    });
-
-    app.get('/getrecipe', (req, res) => {
-
-        var ingredients = req.query.food_list;
-        if(ingredients == 'undefined') {
-
-            var options = {
-                method: 'GET',
-                uri: 'https://api.edamam.com/search',
-                headers: {
-                    "Content-Type": 'application/json'
-                },
-                qs: {
-                    app_id: EDAMAM_APP_ID,
-                    app_key: EDAMAM_APP_KEY,
-                    q: ingredients.join(','),
-                    to: RECIPE_LIMIT
-                },
-                json: true
-            };
-
-            rp(options)
-                .then(function (apiResponse) {
-
-                    var recipeRaw = apiResponse.hits[0];
-                    if (recipeRaw != 'undefined') {
-                        //parse recipe
-                        var recipeResult = {};
-                        recipeResult.name = getFromObject(recipeRaw, 'recipe.label', 'no recipe name');
-                        recipeResult.image = getFromObject(recipeRaw, 'recipe.image', DEFAULT_IMG_URL);
-                        recipeResult.calories = Math.round(getFromObject(recipeRaw, 'recipe.calories', 0));
-                        recipeResult.time = getFromObject(recipeRaw, 'recipe.totalTime', 60);
-                        recipeResult.ingredients = getFromObject(recipeRaw, 'recipe.ingredientLines', ['salt', 'love']);
-                        recipeResult.diets = getFromObject(recipeRaw, 'recipe.dietLabels', ['low-carb']);
-                        recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
-
-                        console.log(recipeResult);
-                        res.render('items', {recipe: recipeResult});
-                    }
-                })
-                .catch((err) => console.log(err));
-        }
-
-    });
-
-    app.listen(PORT, (err) => {
-        if(err){
-            console.log(`Fail: ${err}`);
-        }
-        console.log(`Server is running.\nListening on port ${PORT}...`);
-    });
-};
-
+            console.log(`Server is running.\nListening on port ${PORT}...`);
+        });
+}
 initialize();
