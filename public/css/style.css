@@ -10,21 +10,10 @@
 header {
   background-color: #4db6ac;
 }
-.nav-wrapper {
-
-}
 
 .brand-logo {
   display: block;
   margin-left: 20px;
-
-}
-
-.sidenav-trigger {
-
-}
-
-.material-icons {
 
 }
 
@@ -33,16 +22,10 @@ header {
   transition: 80%;
 }
 
-#mobile-demo {
-
-}
-
-
-
 /* INDEX */
 
-img {
-  max-width: 40%;
+#logo {
+  max-width: 20%;
   margin-top: 50px;
 }
 
@@ -52,6 +35,43 @@ img {
 }
 
 #slogan {
-  background-color: #e26824;
-  color: #fff;
+  background-color: #fff;
+  color: #e26824;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 1000px){
+
+  #logo {
+    max-width: 50%;
+    margin-top: 50px;
+  }
+
+}
+
+/* ADD-ITEM */
+
+#share {
+  color: #e26824;
+  font-weight: bold;
+}
+
+
+/* ITEMS */
+
+/*MY ITEMS */
+
+/* FOOTER */
+
+#footer-design {
+max-width: 100%;
+margin-bottom: 0;
+padding-bottom: 0;
+}
+
+.footer {
+  max-height: 28vh;
+  margin: 0 0 0 0;
+  position: absolute;
+  bottom: 0;
 }
