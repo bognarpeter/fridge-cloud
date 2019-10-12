@@ -115,7 +115,7 @@ function initialize () {
             res.render('add-item', {user: USER_NAME, id: id, distance: distance});
         });
 
-        app.post('/new-item', (req, res) => {
+        app.post('/item-added', (req, res) => {
             var b = req.body;
 
             console.log(b);
