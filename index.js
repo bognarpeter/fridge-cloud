@@ -7,6 +7,7 @@ const hbs = require('express-handlebars');
 const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const typeformEmbed = require('@typeform/embed')
 var rp = require('request-promise');
 
 const PORT = 8080
@@ -79,6 +80,11 @@ function initialize () {
             }
           }
         ]});
+      });
+
+    app.use('/add-item', (req, res) => {
+        var person = "Gaudi";
+        res.render('add-item', {person: person});
     });
 
     app.get('/my-items', (req, res) => {
@@ -101,8 +107,6 @@ function initialize () {
           }
         ]});
     });
-
-    //...
 
     app.listen(PORT, (err) => {
         if(err){
