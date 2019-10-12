@@ -18,9 +18,9 @@ const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-st
 
 const RECIPE_LIMIT = 1;
 
-var logger = function (status, msg) {
+var logger = function(status, msg){
     var dt = new Date();
-    console.log('[' + dt + '][' + status + '] ' + msg);
+    console.log('['+dt+']['+status+'] '+msg);
 }
 
 function getFromObject(obj, path, def) {
@@ -42,7 +42,7 @@ function initialize () {
 
     // View Engine
     app.set('views', path.join(__dirname, 'views'));
-    app.engine('hbs', hbs({ extname: 'hbs', defaultLayout: 'layout' }));
+    app.engine('hbs', hbs({extname:'hbs', defaultLayout:'layout'}));
     app.set('view engine', 'hbs');
 
     // BodyParser Middleware
@@ -74,7 +74,57 @@ function initialize () {
         res.status(500).send(err);
     });
 
+    app.get('/', (req, res) => {
+        var person = "Gaudi";
+        res.render('index', {person: person});
+    });
 
+    app.get('/items', (req, res) => {
+        var person = "Gaudi";
+        res.render('items', {food: [
+          {
+            "id": 0,
+            "name": "apple",
+            "type": "vegetable",
+            "blockedBy": "Peter",
+            "offeredBy": "Simon",
+            "amount": 0,
+            "unit": "Pieces",
+            "expiration_date": "2019-10-12T03:15:01.588Z",
+            "image": "https://google.de/image.jpg",
+            "location": {
+              "lon": 0,
+              "lat": 0
+            }
+          }
+        ]});
+      });
+
+    app.use('/add-item', (req, res) => {
+        var person = "Gaudi";
+        res.render('add-item', {person: person});
+    });
+
+    app.get('/my-items', (req, res) => {
+        var person = "Gaudi";
+        res.render('my-items', {food: [
+          {
+            "id": 0,
+            "name": "apple",
+            "type": "vegetable",
+            "blockedBy": "Peter",
+            "offeredBy": "Simon",
+            "amount": 0,
+            "unit": "Pieces",
+            "expiration_date": "2019-10-12T03:15:01.588Z",
+            "image": "https://google.de/image.jpg",
+            "location": {
+              "lon": 0,
+              "lat": 0
+            }
+          }
+        ]});
+    });
     //Frontend Routes
     require('./routes/frontend')(app);
 
@@ -146,7 +196,7 @@ function initialize () {
     });
 
     app.listen(PORT, (err) => {
-        if (err) {
+        if(err){
             console.log(`Fail: ${err}`);
         }
         console.log(`Server is running.\nListening on port ${PORT}...`);
@@ -154,12 +204,3 @@ function initialize () {
 };
 
 initialize();
-
-const db = require('./db/db')
-db.Add({ "my": "simon" })
-
-
-db.GetAll().then(function(hallo){
-console.log(hallo);
-})
-
