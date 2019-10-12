@@ -94,22 +94,21 @@ function initialize () {
     });
 
     app.get('/items', (req, res) => {
-        var foods = Item.find({offeredBy: {$ne: USER_NAME} }, function (err, docs) {
-            var food = [];
+        var food = [];
+        Item.find({offeredBy: {$ne: USER_NAME} }, function (err, docs) {
             if(err){
                 console.log(err);
             }else{
                 food = {food: docs}
             }
         });
-        res.render('items', {food: foods});
+        res.render('items', food);
       });
 
     app.get('/add-item', (req, res) => {
         //timebased uuid
         var id = uuid.v1();
-        res.render('add-item', {user: person, id: id});
-
+        res.render('add-item', {user: USER_NAME, id: id});
     });
 
     app.get('/my-published-items', (req, res) => {
