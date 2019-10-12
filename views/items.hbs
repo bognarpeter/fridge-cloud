@@ -8,10 +8,10 @@
             <input type="text" id="autocomplete-input" class="autocomplete">
             <label for="autocomplete-input">search</label>
           </div>
-          <div class="input-field col s4">
             <p class="range-field">
                 <input type="range" id="test5" min="0" max="100" />
             </p>
+          <div class="input-field col s4">
           </div>
           </div>
         </div>
@@ -22,7 +22,7 @@
       {{# if food }}
       <table class="striped">
         {{# each food as |f key|}}
-        <tr>
+        <tr class="first-row">
           <td>{{ f.type }}</td>
           <td>{{ f.name }}</td>
           <td>{{ f.name }}</td>
@@ -36,6 +36,3 @@
     </div>
   </div>
 </div>
-<script>
-
-</script>
