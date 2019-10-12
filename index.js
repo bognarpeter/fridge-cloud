@@ -9,14 +9,25 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const typeformEmbed = require('@typeform/embed')
 var rp = require('request-promise');
+const mongoose = require('mongoose');
+
+var Item = require('./models/item-model');
 
 //constants
+const DB_NAME='main';
+const DB_URL = "mongodb+srv://admin:gaudi@fridgecloud-mqpfk.mongodb.net/"
+mongoose.connect(DB_URL+DB_NAME,
+    {useNewUrlParser: true,
+    useUnifiedTopology: true});
+const db = mongoose.connection;
+
 const PORT = 8080;
 const EDAMAM_APP_ID = "e05818ac";
 const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
 const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
+
 
 var logger = function(status, msg){
     var dt = new Date();
@@ -75,8 +86,15 @@ function initialize () {
     });
 
     app.get('/', (req, res) => {
-        var person = "Gaudi";
-        res.render('index', {person: person});
+        console.log("1");
+        Item.find({}, function (err, docs) {
+            console.log(docs)
+            // docs.forEach((d) => console.log(d));
+        });
+        console.log("2");
+
+        res.render('index', {item: "lol"});
+
     });
 
     app.get('/items', (req, res) => {
@@ -101,8 +119,8 @@ function initialize () {
       });
 
     app.use('/add-item', (req, res) => {
-        var person = "Gaudi";
-        res.render('add-item', {person: person});
+       //TODO
+        res.render('add-item', {user: person, lat:0, lon:0});
     });
 
     app.get('/my-items', (req, res) => {
