@@ -159,7 +159,9 @@ module.exports = function (app) {
 
         res.render('items', items);
     });
-    // Add new item
+
+    // Add new item - remove as we do that with typeform
+    /*
     app.post('/items', (req, res) => {
         let body = req.body;
         testData.food.push(body);
@@ -168,6 +170,7 @@ module.exports = function (app) {
         //TODO: redirect to /item/:id
 
     });
+    */
 
     // My reserved items
     app.get('/my-items', (req, res) => {
@@ -197,24 +200,12 @@ module.exports = function (app) {
     // Single item
     app.get('/item/:id', (req, res) => {
         //TODO: load single item
-        var person = "Gaudi";
+        let id = Number(req.param("id"));
+        let i = testData.food[id];
+        console.log(i);
         res.render('items', {
             food: [
-                {
-                    "id": 0,
-                    "name": "apple",
-                    "type": "vegetable",
-                    "blockedBy": "Peter",
-                    "offeredBy": "Simon",
-                    "amount": 0,
-                    "unit": "Pieces",
-                    "expiration_date": "2019-10-12T03:15:01.588Z",
-                    "image": "https://google.de/image.jpg",
-                    "location": {
-                        "lon": 0,
-                        "lat": 0
-                    }
-                }
+                i
             ]
         });
     });
