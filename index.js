@@ -113,6 +113,13 @@ function initialize () {
             res.render('add-item', {user: USER_NAME, id: id});
         });
 
+        app.get('/new-item', (req, res) => {
+            console.log(req);
+            console.log("KAKA");
+            console.log(res);
+        });
+
+
         app.get('/my-published-items', (req, res) => {
             var food = [];
             Item.find({offeredBy: USER_NAME}, function (err, docs) {

@@ -12,8 +12,8 @@
     <h1>Share your leftover to stop food-wasting!</h1>
     <!-- This is the DOM element that will contain your embedded typeform -->
     <script>
-        var lat = 0;
-        var long = 0;
+        let lat = 0;
+        let long = 0;
         if ("geolocation" in navigator) {
           navigator.geolocation.getCurrentPosition(function(position) {
             lat = position.coords.latitude;
