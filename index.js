@@ -9,7 +9,12 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 var rp = require('request-promise');
 
-const PORT = 8080
+#constants
+const PORT = 8080;
+const EDAMAM_APP_ID = "e05818ac";
+const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
+
+const RECIPE_LIMIT = 1;
 
 var logger = function(status, msg){
     var dt = new Date();
@@ -100,6 +105,30 @@ function initialize () {
             }
           }
         ]});
+    });
+
+    app.get('/getrecipe', (req, res) => {
+
+        const ingredients = req.query.food_list;
+
+        var options = {
+            method: 'GET',
+            uri: 'https://api.edamam.com/search',
+            headers: {
+                "app_id": EDAMAM_APP_ID,
+                "app_key": EDAMAM_APP_KEY,
+                "Content-Type": 'application/json'
+            },
+            body: {
+                q: ingredients.join(','),
+                to: RECIPE_LIMIT
+            },
+            json: true
+        };
+
+        rp(options).then()
+
+
     });
 
     //...
