@@ -7,6 +7,9 @@
 
 /* HEADER */
 
+header {
+  background-color: #4db6ac;
+}
 .nav-wrapper {
 
 }
@@ -26,7 +29,8 @@
 }
 
 .leftover-btn {
-
+  background-color: #e26824;
+  transition: 80%;
 }
 
 #mobile-demo {
@@ -35,16 +39,17 @@
 
 
 
-
 /* INDEX */
 
 img {
-  max-width: 50%;
+  max-width: 40%;
   margin-top: 50px;
 }
 
 .slogan {
-  background-color: #;
+  background-color: #e26824;
   color: #fff;
   font-weight: bold;
+  width: 50%;
+  height: 150px;
 }
