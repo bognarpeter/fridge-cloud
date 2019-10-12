@@ -8,8 +8,9 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const typeformEmbed = require('@typeform/embed')
-var rp = require('request-promise');
+const rp = require('request-promise');
 const mongoose = require('mongoose');
+const uuid = require('uuid');
 
 var Item = require('./models/item-model');
 
@@ -44,7 +45,6 @@ function getFromObject(obj, path, def) {
             return def;
         }
     }
-
     return obj;
 }
 
@@ -106,8 +106,10 @@ function initialize () {
       });
 
     app.get('/add-item', (req, res) => {
+        //timebased uuid
+        var id = uuid.v1();
+        res.render('add-item', {user: person, id: id});
 
-        res.render('add-item', {user: person});
     });
 
     app.get('/my-published-items', (req, res) => {
@@ -118,7 +120,7 @@ function initialize () {
             }else{
                 food = {food: docs}
             }
-        }
+        })
         res.render('my-published-items', food);
     });
 
@@ -131,7 +133,7 @@ function initialize () {
             }else{
                 food = {food: docs}
             }
-        }
+        })
         res.render('my-items', food);
     });
 
