@@ -54,8 +54,6 @@ function initialize () {
         res.status(500).send(err);
     });
 
-
-    //Routes
     app.get('/', (req, res) => {
         var person = "Gaudi";
         res.render('index', {person: person});
@@ -107,6 +105,8 @@ function initialize () {
           }
         ]});
     });
+    //Frontend Routes
+    require('./routes/frontend')(app);
 
     app.listen(PORT, (err) => {
         if(err){
