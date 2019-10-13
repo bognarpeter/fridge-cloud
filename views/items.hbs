@@ -25,7 +25,7 @@
           <tr>
             <th class="head" data-field="#">name</th>
             <th class="head" data-field="#">amount</th>
-            <th class="head" data-field="#">posted by</th>
+            <th class="head" data-field="#">offered by</th>
             <th class="head" data-field="#">best before</th>
             <th class="head" data-field="#">distance</th>
             <th class="head" data-field="#">book</th>
@@ -38,7 +38,7 @@
           <td>{{ f.amount }} {{ f.unit }}</td>
           <td>{{ f.offeredBy }}</td>
           <td>{{ f.expiration_date}}</td>
-          <td>{{ f.location.distance }}m</td>
+          <td> {{ f.location.distance }}  m</td>
           <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
         </tr>
       </tbody>
