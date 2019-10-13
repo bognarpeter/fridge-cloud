@@ -142,7 +142,7 @@ function initialize () {
             var minRadius = 50;
             var maxRadius = 1000;
             var distance = (Math.random() * (maxRadius - minRadius) + minRadius).toFixed(2);
-            res.render('add-item', {user: req.user._id, id: id, distance: distance});
+            res.render('add-item', {user: req.user.first_name, userid: req.user._id, id: id, distance: distance});
         });
 
         app.post('/item-added', (req, res) => {
@@ -155,8 +155,8 @@ function initialize () {
             doc.location.lon = getFromObject(b,'form_response.hidden.lon', 0);
             doc.location.distance = getFromObject(b,'form_response.hidden.distance', 0);
             doc.offeredBy = {};
-            doc.offeredBy.name = getFromObject(b,'form_response.hidden.username', 'Joey');
-            doc.offeredBy.id = getFromObject(b,'form_response.hidden.uuid', '0');
+            doc.offeredBy.name = getFromObject(b,'form_response.hidden.username', 0);
+            doc.offeredBy.id = getFromObject(b,'form_response.hidden.userid', 0);
             doc.id = getFromObject(b,'form_response.hidden.uuid', 0);
 
             b.form_response.answers.map(function(f){
