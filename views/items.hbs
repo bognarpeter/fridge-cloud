@@ -8,10 +8,10 @@
             <input type="text" id="autocomplete-input" class="autocomplete">
             <label for="autocomplete-input">search</label>
           </div>
+          <div class="input-field col s4">
             <p class="range-field">
                 <input type="range" id="test5" min="0" max="100" />
             </p>
-          <div class="input-field col s4">
           </div>
           </div>
         </div>
@@ -51,8 +51,11 @@
 </div>
 
 <script>
-   document.getElementsByClassName("reserve-btn").foreach(e => e.addEventListener("click", function(e){
-     window.location.replace("/reserve-item/{{e.details.id}}");
-  });
-);
+   var l = document.getElementsByClassName("reserve-btn");
+   Array.prototype.forEach.call(l, a);
+   function a(item){
+     item.addEventListener("click", function(e){
+     window.location.replace(`/reserve-item/${e.target.getAttribute('id')}`);
+    });
+   }
 </script>

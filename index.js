@@ -167,6 +167,16 @@ function initialize () {
             })
         });
 
+        app.post('/reserve', (req, res) => {
+            var id = req.body.id;
+            var bb = req.body.blockedBy;
+            Items.update({id: id},{ $set: { blockedBy: bb }},{multi: false},function (err, docs) {
+                if (err) {
+                    console.log(err);
+                }
+                res.render('items');
+            })
+        });
 
         app.get('/my-items', (req, res) => {
             var food = [];
