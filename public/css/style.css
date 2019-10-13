@@ -20,6 +20,7 @@ header {
 .leftover-btn {
   background-color: #e26824;
   transition: 80%;
+  font-weight: bold;
 }
 
 /* INDEX */
