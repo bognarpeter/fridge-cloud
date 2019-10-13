@@ -13,18 +13,18 @@
               <!-- Modal Structure -->
               <div id="modal1" class="modal">
                   <div class="modal-content">
-                      <h4>{{recipeResult.name}}</h4>
-                      <img src="{{recipeResult.image}}">
-                      <ul class="striped">
+                      <h4 id="modal-title">{{recipeResult.name}}</h4>
+                      <img id="modal-img" src="{{recipeResult.image}}">
+                      <ul class="recipe-description" class="striped">
                           {{# each recipeResult.ingredients as | f key|}}
                               <li>{{f}}</li>
                           {{/each}}
                       </ul>
                       <br>
-                      <p>calories: {{recipeResult.calories}}, time: {{recipeResult.time}}, diet: {{recipeResult.diet}}</p>
+                      <p class="recipe-description" id="calories">calories: {{recipeResult.calories}}, time: {{recipeResult.time}}, diet: {{recipeResult.diet}}</p>
                       <br>
                       <br>
-                      <p><i>source: {{recipeResult.source}}</i></p>
+                      <p class="recipe-description"><i>source: {{recipeResult.source}}</i></p>
                   </div>
                   <div class="modal-footer">
                       <a href="#!" class="modal-close waves-effect waves-blue btn-flat">Close</a>

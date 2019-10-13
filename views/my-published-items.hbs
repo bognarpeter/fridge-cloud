@@ -15,6 +15,15 @@
       <div class="col s12">
       {{# if food }}
       <table class="striped">
+        <thead>
+          <tr>
+            <th class="head" data-field="#">name</th>
+            <th class="head" data-field="#">food type</th>
+            <th class="head" data-field="#">amount</th>
+            <th class="head" data-field="#">expiration date</th>
+          </tr>
+        </thead>
+        <tbody>
         {{# each food as |f key|}}
         <tr>
           <td>{{ f.name }}</td>
@@ -24,6 +33,7 @@
           <td>{{ f.blockedBy }}</td>
         </tr>
         {{/each}}
+      </tbody>
       </table>
       {{/if}}
      </div>

@@ -21,15 +21,27 @@
       <div class="col s12">
       {{# if food }}
       <table class="striped">
+        <thead>
+          <tr>
+            <th class="head" data-field="#">name</th>
+            <th class="head" data-field="#">amount</th>
+            <th class="head" data-field="#">posted by</th>
+            <th class="head" data-field="#">best before</th>
+            <th class="head" data-field="#">distance</th>
+            <th class="head" data-field="#">book</th>
+          </tr>
+        </thead>
+        <tbody>
         {{# each food as |f key|}}
         <tr>
           <td>{{ f.type }}</td>
           <td>{{ f.amount }} {{ f.unit }}</td>
           <td>{{ f.offeredBy }}</td>
           <td>{{ f.expiration_date}}</td>
-          <td>{{ f.location.distance }}</td>
+          <td>{{ f.location.distance }}m</td>
           <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
         </tr>
+      </tbody>
         {{/each}}
       </table>
       {{/if}}
