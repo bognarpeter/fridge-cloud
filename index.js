@@ -174,17 +174,15 @@ function initialize () {
                 if (err) {
                     console.log(err);
                 } else {
-                    food = {food: docs}
+                    food = docs
                 }
-                res.render('my-items', food);
+                getRecipe(food,res);
             })
         });
 
-        app.get('/getrecipe', (req, res) => {
-
-            var ingredients = req.query.food_list;
-            ingredients = ["chicken", "tomato", "garlic"];
-            if (ingredients == 'undefined') {
+        var getRecipe = function(food, res){
+            food = ["garlic"]
+            if (food.length > 0) {
 
                 var options = {
                     method: 'GET',
@@ -195,7 +193,7 @@ function initialize () {
                     qs: {
                         app_id: EDAMAM_APP_ID,
                         app_key: EDAMAM_APP_KEY,
-                        q: ingredients.join(','),
+                        q: food.join(','),
                         to: RECIPE_LIMIT
                     },
                     json: true
@@ -213,17 +211,19 @@ function initialize () {
                             recipeResult.calories = Math.round(getFromObject(recipeRaw, 'recipe.calories', 0));
                             recipeResult.time = getFromObject(recipeRaw, 'recipe.totalTime', 60);
                             recipeResult.ingredients = getFromObject(recipeRaw, 'recipe.ingredientLines', ['salt', 'love']);
-                            recipeResult.diets = getFromObject(recipeRaw, 'recipe.dietLabels', ['low-carb']);
+                            recipeResult.diet = getFromObject(recipeRaw, 'recipe.dietLabels', ['low-carb'])[0];
                             recipeResult.source = getFromObject(recipeRaw, 'recipe.source', 'Recipe DB');
 
                             console.log(recipeResult);
-                            res.render('items',  recipeResult);
+                            res.render('my-items', {recipeResult: recipeResult, food: food});
                         }
                     })
                     .catch((err) => console.log(err));
+            } else{
+                res.render('my-items');
             }
 
-        });
+        };
 
         app.listen(PORT, (err) => {
             if (err) {
