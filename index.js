@@ -44,6 +44,29 @@ function getFromObject(obj, path, def) {
     return obj;
 }
 
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+function formatTS(foodList){
+    return foodList.map(function(e){
+        var newExpDate = formatDate(e.expiration_date);
+        e.date_s = newExpDate.toString();
+        console.log(e)
+        return e;
+    })
+}
+
 function initialize () {
     let app = express();
 
@@ -119,7 +142,8 @@ function initialize () {
             if (err) {
                 console.log(err);
             } else {
-                food = {food: docs}
+                var fdocs = formatTS(docs);
+                food = {food: fdocs};
             }
             res.render('items', food);
         });
@@ -128,7 +152,7 @@ function initialize () {
     app.get('/reserve-item/:id', function(req, res) {
       var id = req.params.id;
       var blockedBy = req.user._id;
-        Item.update({id: id},{ $set: { 'blockedBy.id': blockedBy, 'blockedBy.name': req.use.first_name}},{multi: false},function (err, docs) {
+        Item.update({id: id},{ $set: { 'blockedBy.id': blockedBy, 'blockedBy.name': req.user.first_name}},{multi: false},function (err, docs) {
             if (err) {
                 console.log(err);
             }
@@ -187,7 +211,8 @@ function initialize () {
                 if (err) {
                     console.log(err);
                 } else {
-                    food = {food: docs}
+                    var fdocs = formatTS(docs);
+                    food = {food: fdocs};
                 }
                 res.render('my-published-items', food);
             })
@@ -200,15 +225,18 @@ function initialize () {
                 if (err) {
                     console.log(err);
                 } else {
-                    food = docs
+                    var fdocs = formatTS(docs);
+                    food = fdocs;
                 }
                 getRecipe(food,res);
             })
         });
 
         var getRecipe = function(food, res){
-            food = ["garlic"]
+            console.log(food);
+
             if (food.length > 0) {
+                var ingredients = food.map((f) => f.name);
 
                 var options = {
                     method: 'GET',
@@ -219,7 +247,7 @@ function initialize () {
                     qs: {
                         app_id: EDAMAM_APP_ID,
                         app_key: EDAMAM_APP_KEY,
-                        q: food.join(','),
+                        q: ingredients.join(','),
                         to: RECIPE_LIMIT
                     },
                     json: true

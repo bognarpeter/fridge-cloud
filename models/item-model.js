@@ -28,6 +28,9 @@ var ItemSchema = mongoose.Schema({
     expiration_date: {
         type: Date
     },
+    date_s: {
+        type: String
+    },
     image: {
         type: String
     },

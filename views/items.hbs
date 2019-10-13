@@ -35,12 +35,12 @@
         <tbody>
         {{# each food as |f key|}}
         <tr>
-          <td>{{ f.type }}</td>
+          <td>{{ f.name }}</td>
           <td>{{ f.amount }} {{ f.unit }}</td>
           <td>{{ f.offeredBy.name }}</td>
-          <td>{{ f.expiration_date}}</td>
+          <td>{{ f.date_s}}</td>
           <td> {{ f.location.distance }} </td>
-        {{# if f.blockedBy }}
+        {{# if f.blockedBy.id }}
             <td><a class="waves-effect waves-light btn btn-small disabled" id="{{ f.id }}">booked</a></td>
         {{else}}
             <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
