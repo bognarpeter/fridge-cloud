@@ -12,10 +12,12 @@ var ItemSchema = mongoose.Schema({
         type: String
     },
     blockedBy: {
-        type: String
+        name: { type: String },
+        id: { type: String },
     },
     offeredBy: {
-        type: String
+        name: { type: String },
+        id: { type: String },
     },
     amount: {
         type: Number

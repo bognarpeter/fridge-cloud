@@ -114,7 +114,7 @@ function initialize () {
 
     app.get('/items', (req, res) => {
         var food = [];
-        Item.find({offeredBy: {$ne: req.user._id}}, function (err, docs) {
+        Item.find({'offeredBy.id': {$ne: req.user._id}}, function (err, docs) {
 
             if (err) {
                 console.log(err);
@@ -128,7 +128,7 @@ function initialize () {
     app.get('/reserve-item/:id', function(req, res) {
       var id = req.params.id;
       var blockedBy = req.user._id;
-        Item.update({id: id},{ $set: { blockedBy: blockedBy }},{multi: false},function (err, docs) {
+        Item.update({id: id},{ $set: { 'blockedBy.id': blockedBy, 'blockedBy.name': req.use.first_name}},{multi: false},function (err, docs) {
             if (err) {
                 console.log(err);
             }
@@ -154,7 +154,9 @@ function initialize () {
             doc.location.lat = getFromObject(b,'form_response.hidden.lat', 0);
             doc.location.lon = getFromObject(b,'form_response.hidden.lon', 0);
             doc.location.distance = getFromObject(b,'form_response.hidden.distance', 0);
-            doc.offeredBy = getFromObject(b,'form_response.hidden.username', 'Joey');
+            doc.offeredBy = {};
+            doc.offeredBy.name = getFromObject(b,'form_response.hidden.username', 'Joey');
+            doc.offeredBy.id = getFromObject(b,'form_response.hidden.uuid', '0');
             doc.id = getFromObject(b,'form_response.hidden.uuid', 0);
 
             b.form_response.answers.map(function(f){
@@ -181,7 +183,7 @@ function initialize () {
 
         app.get('/my-published-items', (req, res) => {
             var food = [];
-            Item.find({offeredBy: req.user._id}, function (err, docs) {
+            Item.find({'offeredBy.id': req.user._id}, function (err, docs) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -194,7 +196,7 @@ function initialize () {
 
         app.get('/my-items', (req, res) => {
             var food = [];
-            Item.find({blockedBy: req.user._id}, function (err, docs) {
+            Item.find({'blockedBy.id': req.user._id}, function (err, docs) {
                 if (err) {
                     console.log(err);
                 } else {

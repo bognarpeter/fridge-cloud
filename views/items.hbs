@@ -37,13 +37,13 @@
         <tr>
           <td>{{ f.type }}</td>
           <td>{{ f.amount }} {{ f.unit }}</td>
-          <td>{{ f.offeredBy }}</td>
+          <td>{{ f.offeredBy.name }}</td>
           <td>{{ f.expiration_date}}</td>
           <td> {{ f.location.distance }} </td>
         {{# if f.blockedBy }}
-            <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
-        {{else}}
             <td><a class="waves-effect waves-light btn btn-small disabled" id="{{ f.id }}">booked</a></td>
+        {{else}}
+            <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
         {{/if}}
         </tr>
         {{/each}}
@@ -94,11 +94,6 @@ function filter() {
     if (td) {
       dValue = td.textContent || td.innerText;
 
-      console.log(dValue);
-      console.log(typeof(dValue));
-      console.log(filter);
-      console.log(typeof(filter));
-      console.log("fassssssssszom");
       if (dValue < filter) {
         tr[i].style.display = "";
       } else {

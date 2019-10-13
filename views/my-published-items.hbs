@@ -21,6 +21,7 @@
             <th class="head" data-field="#">food type</th>
             <th class="head" data-field="#">amount</th>
             <th class="head" data-field="#">expiration date</th>
+              <th class="head" data-field="#">booked by</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +31,7 @@
           <td>{{ f.type }}</td>
           <td>{{ f.amount }} {{ f.unit }}</td>
           <td>{{ f.expiration_date}}</td>
-          <td>{{ f.blockedBy }}</td>
+          <td>{{ f.blockedBy.name }}</td>
         </tr>
         {{/each}}
         </tbody>
