@@ -72,7 +72,16 @@ header {
   text-align: left;
 
 }
+/* ITEMS */
 
+.distance-label {
+  color: #e26824;
+  font-weight: bold;
+}
+
+.range-field {
+  margin-top: 27px;
+}
 /*MY ITEMS */
 
 .recipe-btn {
