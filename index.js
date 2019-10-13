@@ -11,6 +11,11 @@ const typeformEmbed = require('@typeform/embed')
 const rp = require('request-promise');
 const mongoose = require('mongoose');
 const uuid = require('uuid');
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
+const mongo = require('mongodb');
 
 var Item = require('./models/item-model');
 
@@ -30,11 +35,6 @@ const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-st
 const RECIPE_LIMIT = 1;
 var USER_NAME = 'Joey';
 
-var logger = function(status, msg){
-    var dt = new Date();
-    console.log('['+dt+']['+status+'] '+msg);
-}
-
 function getFromObject(obj, path, def) {
     var parts = path.split('.');
 
@@ -51,6 +51,9 @@ function getFromObject(obj, path, def) {
 function initialize () {
     let app = express();
 
+    var routes = require('./routes/index');
+    var home = require('./routes/home');
+
     // View Engine
     app.set('views', path.join(__dirname, 'views'));
     app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout'}));
@@ -59,6 +62,7 @@ function initialize () {
     // BodyParser Middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
+    app.use(cookieParser());
 
     // Set Static Folder
     app.use(express.static('public'));
@@ -70,6 +74,28 @@ function initialize () {
         resave: true
     }));
 
+    // Passport init
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // Express Validator
+    app.use(expressValidator({
+        errorFormatter:(param, msg, value) => {
+            var namespace = param.split('.')
+                , root    = namespace.shift()
+                , formParam = root;
+
+            while(namespace.length) {
+                formParam += '[' + namespace.shift() + ']';
+            }
+            return {
+                param : formParam,
+                msg   : msg,
+                value : value
+            };
+        }
+    }));
+
     // Connect Flash
     app.use(flash());
 
@@ -78,8 +104,12 @@ function initialize () {
         res.locals.success_msg = req.flash('success_msg');
         res.locals.error_msg = req.flash('error_msg');
         res.locals.error = req.flash('error');
+        res.locals.user = req.user || null;
         next();
     });
+
+    app.use('/', routes);
+    app.use('/home', home);
 
     app.use((err, req, res, next) => {
         res.status(500).send(err);
