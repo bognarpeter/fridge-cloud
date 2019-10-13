@@ -10,7 +10,7 @@
           </div>
           <div class="input-field col s4">
             <p class="range-field">
-                <input type="range" id="test5" min="0" max="100" />
+                <input type="range" min="0" max="1000" id="distanceInput" onchange="filter()"/>
             </p>
           </div>
           </div>
@@ -27,7 +27,7 @@
             <th class="head" data-field="#">amount</th>
             <th class="head" data-field="#">offered by</th>
             <th class="head" data-field="#">best before</th>
-            <th class="head" data-field="#">distance</th>
+            <th class="head" data-field="#">distance (m)</th>
             <th class="head" data-field="#">book</th>
           </tr>
         </thead>
@@ -38,11 +38,11 @@
           <td>{{ f.amount }} {{ f.unit }}</td>
           <td>{{ f.offeredBy }}</td>
           <td>{{ f.expiration_date}}</td>
-          <td> {{ f.location.distance }}  m</td>
+          <td> {{ f.location.distance }} </td>
           <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
         </tr>
         {{/each}}
-       </tbody>
+        </tbody>
       </table>
       {{/if}}
      </div>
@@ -72,6 +72,31 @@ function search() {
     if (td) {
       txtValue = td.textContent || td.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+
+function filter() {
+  var input, filter, table, tr, td, i, dValue;
+  input = document.getElementById("distanceInput");
+  filter = parseInt(input.value);
+  table = document.getElementById("itemsTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[4];
+    if (td) {
+      dValue = td.textContent || td.innerText;
+
+      console.log(dValue);
+      console.log(typeof(dValue));
+      console.log(filter);
+      console.log(typeof(filter));
+      console.log("fassssssssszom");
+      if (dValue < filter) {
         tr[i].style.display = "";
       } else {
         tr[i].style.display = "none";
