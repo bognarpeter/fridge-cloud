@@ -39,5 +39,7 @@
   </div>
 </div>
 <script>
-   document.getElementsByClassName("reserve-btn")
+   document.getElementsByClassName("reserve-btn").addEventListener("click", function(){
+     window.location.replace("/reserve-item/{{f.id}}");
+  });
 </script>

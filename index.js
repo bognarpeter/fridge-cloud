@@ -106,6 +106,12 @@ function initialize () {
         });
     });
 
+    app.get('/reserve-item/:id', function(req, res) {
+      var id = req.params.id;
+      //change blockedBy to the username
+      
+    });
+
         app.get('/add-item', (req, res) => {
             //timebased uuid
             var id = uuid.v1();
