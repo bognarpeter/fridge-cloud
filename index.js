@@ -181,6 +181,7 @@ function initialize () {
         });
 
         var getRecipe = function(food, res){
+            //food = ["garlic"]
             if (food.length > 0) {
 
                 var options = {
