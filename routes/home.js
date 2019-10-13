@@ -6,6 +6,8 @@ const Item = require('../models/item-model');
 
 //Get Homepage
 router.get('/', util.authMw, function(req, res) {
-        res.render('home', {user: req.user});
+    console.log(req.user);
+
+    res.render('home', {user: req.user});
 })
 module.exports = router;

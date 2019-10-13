@@ -1,6 +1,5 @@
 'use strict';
 
-const url = require("url");
 const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
@@ -14,8 +13,6 @@ const uuid = require('uuid');
 const cookieParser = require('cookie-parser');
 const expressValidator = require('express-validator');
 const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
-const mongo = require('mongodb');
 
 var Item = require('./models/item-model');
 
@@ -33,7 +30,6 @@ const EDAMAM_APP_KEY = "e5b249a2f296b9180130b68f31072ce6";
 const DEFAULT_IMG_URL = "https://cookieandkate.com/images/2018/05/traditional-stovetop-frittata-recipe-4.jpg";
 
 const RECIPE_LIMIT = 1;
-var USER_NAME = 'Joey';
 
 function getFromObject(obj, path, def) {
     var parts = path.split('.');
@@ -116,16 +112,9 @@ function initialize () {
     });
 
 
-    app.get('/', (req, res) => {
-        if (req.query.username != undefined) {
-            USER_NAME = req.query.username;
-        }
-        res.render('index', {username: USER_NAME});
-    });
-
     app.get('/items', (req, res) => {
         var food = [];
-        Item.find({offeredBy: {$ne: USER_NAME}}, function (err, docs) {
+        Item.find({offeredBy: {$ne: req.user._id}}, function (err, docs) {
 
             if (err) {
                 console.log(err);
@@ -138,8 +127,13 @@ function initialize () {
 
     app.get('/reserve-item/:id', function(req, res) {
       var id = req.params.id;
-      //change blockedBy to the username
-
+      var blockedBy = req.user._id;
+        Item.update({id: id},{ $set: { blockedBy: blockedBy }},{multi: false},function (err, docs) {
+            if (err) {
+                console.log(err);
+            }
+            res.redirect('/my-items');
+        })
     });
 
         app.get('/add-item', (req, res) => {
@@ -148,7 +142,7 @@ function initialize () {
             var minRadius = 50;
             var maxRadius = 1000;
             var distance = (Math.random() * (maxRadius - minRadius) + minRadius).toFixed(2);
-            res.render('add-item', {user: USER_NAME, id: id, distance: distance});
+            res.render('add-item', {user: req.user._id, id: id, distance: distance});
         });
 
         app.post('/item-added', (req, res) => {
@@ -187,7 +181,7 @@ function initialize () {
 
         app.get('/my-published-items', (req, res) => {
             var food = [];
-            Item.find({offeredBy: USER_NAME}, function (err, docs) {
+            Item.find({offeredBy: req.user._id}, function (err, docs) {
                 if (err) {
                     console.log(err);
                 } else {
@@ -197,20 +191,10 @@ function initialize () {
             })
         });
 
-        app.post('/reserve', (req, res) => {
-            var id = req.body.id;
-            var bb = req.body.blockedBy;
-            Items.update({id: id},{ $set: { blockedBy: bb }},{multi: false},function (err, docs) {
-                if (err) {
-                    console.log(err);
-                }
-                res.render('items');
-            })
-        });
 
         app.get('/my-items', (req, res) => {
             var food = [];
-            Item.find({blockedBy: USER_NAME}, function (err, docs) {
+            Item.find({blockedBy: req.user._id}, function (err, docs) {
                 if (err) {
                     console.log(err);
                 } else {

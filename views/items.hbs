@@ -39,7 +39,11 @@
           <td>{{ f.offeredBy }}</td>
           <td>{{ f.expiration_date}}</td>
           <td> {{ f.location.distance }} </td>
-          <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
+        {{# if f.blockedBy }}
+            <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
+        {{else}}
+            <td><a class="waves-effect waves-light btn btn-small disabled" id="{{ f.id }}">booked</a></td>
+        {{/if}}
         </tr>
         {{/each}}
         </tbody>
