@@ -54,6 +54,13 @@ header {
 #share {
   color: #e26824;
   font-weight: bold;
+  text-align: center;
+  padding-left: 20px;
+}
+
+.container {
+  display: block;
+  margin: 0 0 0 0;
 }
 
 
