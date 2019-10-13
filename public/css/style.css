@@ -75,6 +75,12 @@ header {
 
 /*MY ITEMS */
 
+.recipe-btn {
+  float: right;
+  margin: 10px 0 0 0;
+  background-color: #e26824;
+}
+
 #modal-title {
   text-align: left;
 }
@@ -84,16 +90,13 @@ header {
   float: left;
 }
 
-#calories {
-  display: inline-block;
-  padding: 5px;
-}
-
 .recipe-description {
   text-align: right;
   text-transform: lowercase;
   list-style-position: inherit;
 }
+
+
 
 /* FOOTER */
 

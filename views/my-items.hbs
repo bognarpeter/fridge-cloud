@@ -7,9 +7,7 @@
             <i class="material-icons prefix">search</i>
             <input type="text" id="search-input" class="autocomplete" onkeyup="search()">
             <label for="search-input">search</label>
-              <!-- Modal Trigger -->
-              <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Get a Recipe!</a>
-
+            <a class="waves-effect waves-light btn modal-trigger recipe-btn" href="#modal1">Get a Recipe!</a>
               <!-- Modal Structure -->
               <div id="modal1" class="modal">
                   <div class="modal-content">
@@ -21,7 +19,7 @@
                           {{/each}}
                       </ul>
                       <br>
-                      <p class="recipe-description" id="calories">calories: {{recipeResult.calories}}, time: {{recipeResult.time}}, diet: {{recipeResult.diet}}</p>
+                      <p class="recipe-description" id="calories">CALORIES: {{recipeResult.calories}}; TIME: {{recipeResult.time}}; DIET: {{recipeResult.diet}}</p>
                       <br>
                       <br>
                       <p class="recipe-description"><i>source: {{recipeResult.source}}</i></p>
