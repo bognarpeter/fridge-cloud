@@ -64,9 +64,36 @@ header {
 }
 
 
-/* ITEMS */
+/* MY PUBLISHED ITEMS */
+
+.head {
+  color: #e26824;
+  font-weight: bold;
+  text-align: left;
+
+}
 
 /*MY ITEMS */
+
+#modal-title {
+  text-align: left;
+}
+
+#modal-img {
+  display: block;
+  float: left;
+}
+
+#calories {
+  display: inline-block;
+  padding: 5px;
+}
+
+.recipe-description {
+  text-align: right;
+  text-transform: lowercase;
+  list-style-position: inherit;
+}
 
 /* FOOTER */
 
