@@ -28,7 +28,7 @@
           <td>{{ f.amount }} {{ f.unit }}</td>
           <td>{{ f.offeredBy }}</td>
           <td>{{ f.expiration_date}}</td>
-          <td>{{ f.distance }}</td>
+          <td>{{ f.location.distance }}</td>
           <td><a class="waves-effect waves-light btn btn-small reserve-btn" id="{{ f.id }}">reserve</a></td>
         </tr>
         {{/each}}
@@ -39,7 +39,8 @@
   </div>
 </div>
 <script>
-   document.getElementsByClassName("reserve-btn").addEventListener("click", function(){
-     window.location.replace("/reserve-item/{{f.id}}");
+   document.getElementsByClassName("reserve-btn").foreach(e => e.addEventListener("click", function(e){
+     window.location.replace("/reserve-item/{{e.details.id}}");
   });
+);
 </script>
