@@ -5,8 +5,8 @@
         <div class="row">
           <div class="input-field col s8">
             <i class="material-icons prefix">search</i>
-            <input type="text" id="autocomplete-input" class="autocomplete">
-            <label for="autocomplete-input">search</label>
+            <input type="text" id="search-input" class="autocomplete" onkeyup="search()">
+            <label for="search-input">search</label>
           </div>
           <div class="input-field col s4">
             <p class="range-field">
@@ -20,7 +20,7 @@
     <div class="row">
       <div class="col s12">
       {{# if food }}
-      <table class="striped">
+      <table class="striped" id="itemsTable">
         {{# each food as |f key|}}
         <tr>
           <td>{{ f.type }}</td>
@@ -46,4 +46,25 @@
      window.location.replace(`/reserve-item/${e.target.getAttribute('id')}`);
     });
    }
+</script>
+
+<script>
+function search() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("search-input");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("itemsTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
 </script>
